@@ -1,0 +1,24 @@
+<app name="sample">
+    <echo message="Om Ganeshaya Namah!!"/>
+    This is sample text
+    And a second line
+    <step1 attr1="val1" attr2="val2">Sample step 5 text
+        and some more
+        <nestedStep1 attr1="val1" attr2="val2">The
+            string body
+            of the nested element.
+        </nestedStep1>
+    </step1>
+    And a third line of text
+    <step2 attr1="val1" attr2="val2"><![CDATA[CDATA Body for
+step2]]></step2>
+    <step3 attr1="val1" attr2="val2"/>
+    <step4 attr1="val1" attr2="val2"/>
+    <step5 attr1="val1" attr2="val2">Sample step 5 text
+        and some more
+        <nestedStep1 attr1="val1" attr2="val2">The
+            string body
+            of the nested element.
+        </nestedStep1>
+    </step5>
+</app>
