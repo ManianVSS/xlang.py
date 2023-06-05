@@ -1,24 +1,37 @@
-<app name="sample">
-    <echo message="Om Ganeshaya Namah!!"/>
-    This is sample text
-    And a second line
-    <step1 attr1="val1" attr2="val2">Sample step 5 text
-        and some more
-        <nestedStep1 attr1="val1" attr2="val2">The
-            string body
-            of the nested element.
-        </nestedStep1>
-    </step1>
-    And a third line of text
-    <step2 attr1="val1" attr2="val2"><![CDATA[CDATA Body for
-step2]]></step2>
-    <step3 attr1="val1" attr2="val2"/>
-    <step4 attr1="val1" attr2="val2"/>
-    <step5 attr1="val1" attr2="val2">Sample step 5 text
-        and some more
-        <nestedStep1 attr1="val1" attr2="val2">The
-            string body
-            of the nested element.
-        </nestedStep1>
-    </step5>
-</app>
+<XLangExampleProgram>
+    <echo message="A sample XML language program"/>
+
+    <var name="myVar1" type="int" value="10"/>
+    <var name="mySimpleVar" type="bool" value="True"/>
+    <var name="mySimpleVar" type="json" >
+        {
+            "a": 10,
+            "b": true,
+            "c": "my value"
+        }
+    </var>
+
+    <func name="myFunction1">
+        <echo message="myFunction1 A sample function"/>
+        <var name="myVar1" type="int" value="20"/>
+        <var name="myFunVar1" type="int" value="10"/>
+        <echo message="myFunction1 Variables are ${myVar1}, ${mySimpleVar}, ${myFunVar1}, ${mySimpleFunVar}"/>
+        <var name="mySimpleFunVar" type="bool" value="True"/>
+
+        <return/>
+        <echo message="*** This message should not get printed"/>
+        <echo message="&amp; This message should not get printed"/>
+        <echo message=": This message should not get printed"/>
+        <echo message="-This message should not get printed"/>
+        <echo message="% This message should not get printed"/>
+        <echo message="@ This message should not get printed"/>
+    </func>
+
+    <echo message="Before myVar1=${myVar1} mySimpleVar=${mySimpleVar} myFunVar1=${myFunVar1} mySimpleFunVar=${mySimpleFunVar}"/>
+    <call name="myFunction1" outputParameters="myFunVar1, mySimpleFunVar"/>
+    <echo message="After myVar1=${myVar1} mySimpleVar=${mySimpleVar} myFunVar1=${myFunVar1} mySimpleFunVar=${mySimpleFunVar}"/>
+
+    <var name="pointer" value="myVar1"/>
+    <echo message="Value of object at pointer is ${${pointer}}"/>
+
+</XLangExampleProgram>

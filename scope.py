@@ -1,11 +1,15 @@
 class Scope:
-    def __init__(self):
-        self.parent = None
+    def __init__(self, parent=None):
+        self.parent = parent
         self.variables = {}
         self.functions = {}
 
-    # def has_local_variable(self, name):
-    #     return name in self.variables
+        # Inherit scope from parent
+        if self.parent:
+            for variable in self.parent.variables:
+                self.variables[variable] = self.parent.variables[variable]
+            for function in self.parent.functions:
+                self.functions[function] = self.parent.functions[function]
 
     def get_variable(self, name):
         if name in self.variables:
@@ -15,5 +19,10 @@ class Scope:
         else:
             return None
 
-    # def put_variable(self, name, value):
-    #     self.variables[name] = value
+    def get_function(self, name):
+        if name in self.functions:
+            return self.functions[name]
+        elif self.parent:
+            return self.parent.get_function(name)
+        else:
+            return None

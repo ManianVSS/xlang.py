@@ -4,7 +4,8 @@ import inspect
 import os
 import xml.etree.ElementTree as ElementTree
 
-from builtinsteps import Echo
+from builtinsteps import Echo, FunctionCall, FunctionDefinition, VariableDefinition, Return
+from scope import Scope
 from step import Step
 
 DOT_PY = ".py"
@@ -43,6 +44,10 @@ def dynamic_import_from_src(src, star_import=False):
 step_definition_mapping = {
     'undefined': Step,
     'echo': Echo,
+    'var': VariableDefinition,
+    'func': FunctionDefinition,
+    'call': FunctionCall,
+    'return': Return,
 }
 
 
@@ -64,26 +69,24 @@ def init_step_definitions(step_def_directories):
                             step_definition_mapping[imported_object.tag] = imported_object
 
 
-print(step_definition_mapping)
-
-
-def get_step(element):
+def get_step(parent, element):
     if element.tag in step_definition_mapping:
         step_type = step_definition_mapping[element.tag]
-        step_object = step_type(element.attrib, element.text)
+        step_object = step_type(parent, element.attrib, element.text)
     else:
-        step_object = Step(element.attrib, element.text)
+        step_object = Step(parent, element.attrib, element.text)
     for child in element:
-        step_object.add_steps(get_step(child))
+        step_object.add_steps(get_step(step_object, child))
     return step_object
 
 
 def execute_file(file):
     tree = ElementTree.parse(file)
-    steps = get_step(tree.getroot())
-
+    steps = get_step(None, tree.getroot())
+    scope = Scope()
     for step in steps.steps:
-        step.execute()
+        step.execute(scope)
 
 
+init_step_definitions('steps')
 execute_file('app.xml')
